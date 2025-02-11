@@ -43,5 +43,12 @@ def operas():
     </form>
         '''
 
+@app.route("/")
+def ejemplo1():
+    titulo="IDGS801"
+    lista=["Pedro","Juan","Luis"]
+    return render_template('ejemplo1.html', titulo=titulo, lista=lista)
+
+
 if __name__ =="__main__":
     app.run(debug=True, port=3000) #Debug hace un reload
