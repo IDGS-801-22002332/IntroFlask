@@ -2,9 +2,6 @@ from flask import Flask, render_template
 
 app=Flask(__name__)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 @app.route("/hola")
 def hola():
@@ -47,7 +44,7 @@ def operas():
 def ejemplo1():
     titulo="IDGS801"
     lista=["Pedro","Juan","Luis"]
-    return render_template('ejemplo1.html', titulo=titulo, lista=lista)
+    return render_template('ejemplo.html', titulo=titulo, lista=lista)
 
 
 if __name__ =="__main__":
