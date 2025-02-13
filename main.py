@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app=Flask(__name__)
 
@@ -45,6 +45,38 @@ def ejemplo1():
     titulo="IDGS801"
     lista=["Pedro","Juan","Luis"]
     return render_template('ejemplo.html', titulo=titulo, lista=lista)
+
+
+@app.route("/OperasBas")
+def operaciones():
+    return render_template("OperasBas.html")
+
+@app.route("/resultado",methods=["GET","POST"])
+def result():
+    num1=request.form.get("num1")
+    num2=request.form.get("num2")
+    return "La multiplicacion de {} x {} es {}".format(num1,num2,str(int(num1) * int(num2)))
+
+
+@app.route("/calculadora", methods=["GET", "POST"])
+def calculadora():
+    resultado = ""  
+    if request.method == "POST":
+            num1 = int(request.form["num1"])
+            num2 = int(request.form["num2"])
+            operacion = request.form["opcion"]  
+
+            if operacion == "suma":
+                resultado = num1 + num2
+            elif operacion == "resta":
+                resultado = num1 - num2
+            elif operacion == "multiplicacion":
+                resultado = num1 * num2
+            elif operacion == "division":
+                resultado = num1 / num2 
+
+    return render_template("OperasBas.html", resultado=resultado)
+
 
 
 if __name__ =="__main__":
