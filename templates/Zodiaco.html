@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Signo Zodiacal</title>
+    <link rel="stylesheet" href="../static/css/styleZodiaco.css">
+</head>
+<body>
+    <div class="container">
+        <div class="formulario">
+            <h2>Datos Personales</h2>
+            <form action="/zodiaco" method="post">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                
+                <label for="apaterno">Apellido Paterno:</label>
+                <input type="text" id="apaterno" name="apaterno" required>
+                
+                <label for="amaterno">Apellido Materno:</label>
+                <input type="text" id="amaterno" name="amaterno">
+            
+                <h3>Fecha de nacimiento</h3>
+                <div class="fecha">
+                    <input type="number" name="dia" placeholder="Día" min="1" max="31" required>
+                    <input type="number" name="mes" placeholder="Mes" min="1" max="12" required>
+                    <input type="number" name="anio" placeholder="Año" min="1900" required>
+                </div>
+            
+                <h3>Sexo</h3>
+                <div class="sexo">
+                    <input type="radio" id="masculino" name="sexo" value="Masculino" required>
+                    <label for="masculino">Masculino</label>
+            
+                    <input type="radio" id="femenino" name="sexo" value="Femenino">
+                    <label for="femenino">Femenino</label>
+                </div>
+            
+                <button type="submit">IMPRIMIR</button>
+            </form>
+        </div>
+
+        <div class="resultado">
+            {% if nombre %}
+                <h2>Hola <span class="negrita">{{ nombre }} {{ apaterno }} {{ amaterno }}</span></h2>
+                <p>Tienes <span class="negrita">{{ edad }}</span> años</p>
+                <p>Tu signo zodiacal es: <span class="negrita">{{ signo }}</span></p>
+                <p>Tu animal zodiacal es: <span class="negrita">{{ animal }}</span></p>
+
+                <img src="{{ url_for('static', filename='img/' + imagen_animal) }}" alt="{{ animal }}" class="imagen-animal" style="width: 150px;">
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
