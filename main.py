@@ -106,11 +106,11 @@ def cinepolis():
                 
     return render_template("Cinepolis.html", total_pagar=total_pagar, nombre=nombre, mensaje=mensaje)
 
-def calcular_edad(anio):
-    anio_actual = datetime.now().year
-    return anio_actual - anio
+def calcularEdad(anio):
+    anioActual = datetime.now().year
+    return anioActual - anio
 
-def obtener_signo_zodiacal(dia, mes):
+def obtenerSigno(dia, mes):
     signos = [
         ("Capricornio", 12, 22, 1, 19),
         ("Acuario", 1, 20, 2, 18),
@@ -125,16 +125,16 @@ def obtener_signo_zodiacal(dia, mes):
         ("Escorpio", 10, 23, 11, 21),
         ("Sagitario", 11, 22, 12, 21),
     ]
-    for signo, mes_inicio, dia_inicio, mes_fin, dia_fin in signos:
-        if (mes == mes_inicio and dia >= dia_inicio) or (mes == mes_fin and dia <= dia_fin):
+    for signo, mesInicio, diaInicio, mesFin, diaFin in signos:
+        if (mes == mesInicio and dia >= diaInicio) or (mes == mesFin and dia <= diaFin):
             return signo
     return "Desconocido"
 
-def obtener_animal_chino(anio):
+def animalChino(anio):
     animales = ["Mono", "Gallo", "Perro", "Cerdo", "Rata", "Buey", "Tigre", "Conejo", "Dragón", "Serpiente", "Caballo", "Cabra"]
     return animales[anio % 12]
 
-def obtener_imagen_animal(animal):
+def imagen(animal):
     imagenes = {
         "Mono": "mono.webp",
         "Gallo": "gallo.webp",
@@ -160,7 +160,7 @@ def zodiaco():
     nombre = ""
     apaterno = ""
     amaterno = ""
-    imagen_animal = ""
+    imagenAnimal = ""
 
     if request.method == "POST":
         try:
@@ -171,15 +171,15 @@ def zodiaco():
             mes = int(request.form["mes"])
             anio = int(request.form["anio"])
 
-            signo = obtener_signo_zodiacal(dia, mes)
-            animal = obtener_animal_chino(anio)
-            edad = calcular_edad(anio)
-            imagen_animal = obtener_imagen_animal(animal)
+            signo = obtenerSigno(dia, mes)
+            animal = animalChino(anio)
+            edad = calcularEdad(anio)
+            imagenAnimal = imagen(animal)
 
         except (ValueError, KeyError):
             mensaje = "Fecha inválida. Asegúrate de llenar todos los campos correctamente."
 
-    return render_template("Zodiaco.html", signo=signo, animal=animal, edad=edad, mensaje=mensaje, nombre=nombre, apaterno=apaterno, amaterno=amaterno, imagen_animal=imagen_animal)
+    return render_template("Zodiaco.html", signo=signo, animal=animal, edad=edad, mensaje=mensaje, nombre=nombre, apaterno=apaterno, amaterno=amaterno, imagenAnimal=imagenAnimal)
 
 
 if __name__ =="__main__":
