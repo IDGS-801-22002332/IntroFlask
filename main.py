@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from datetime import datetime
+import forms
 
 app=Flask(__name__)
 
@@ -78,6 +79,20 @@ def calculadora():
 
     return render_template("OperasBas.html", resultado=resultado)
 
+@app.route("/alumnos", methods=["GET", "POST"])
+def alumnos():
+    mat=''
+    nom=''
+    ape=''
+    cor=''
+    alumno_clas=forms.UserForm(request.form)
+    if request.method == 'POST':
+        mat = alumno_clas.matricula.data
+        nom = alumno_clas.nombre.data
+        ape = alumno_clas.apellido.data
+        cor = alumno_clas.correo.data
+    return render_template("Alumnos.html",form=alumno_clas,mat=mat,nom=nom,ape=ape,cor=cor)
+
 @app.route("/cinepolis", methods=["GET", "POST"])
 def cinepolis():
     total_pagar = None
@@ -140,7 +155,7 @@ def imagen(animal):
         "Gallo": "gallo.webp",
         "Perro": "perro.webp",
         "Cerdo": "cerdo.webp",
-        "Rata": "img/rata.webp",
+        "Rata": "rata.webp",
         "Buey": "buey.webp",
         "Tigre": "tigre.webp",
         "Conejo": "conejo.webp",
