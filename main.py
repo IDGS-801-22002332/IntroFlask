@@ -1,9 +1,27 @@
 from flask import Flask, render_template, request
 from datetime import datetime
 import forms
+from flask_wtf.csrf import CSRFProtect
+from flask import g
+from flask import flash
 
 app=Flask(__name__)
+app.secret_key="este es una clave secreta"
+csr=CSRFProtect()
 
+@app.errorhandler(404)
+def page_notfound(e):
+    return render_template('404.html'),404
+
+@app.before_request
+def before_request():
+    g.user="Mario"
+    print("beforer1")
+    
+@app.after_request
+def after_request(response):
+    print("after1")
+    return response
 
 @app.route("/hola")
 def hola():
@@ -44,9 +62,12 @@ def operas():
 
 @app.route("/")
 def ejemplo1():
+    nombre='None'
     titulo="IDGS801"
     lista=["Pedro","Juan","Luis"]
-    return render_template('ejemplo.html', titulo=titulo, lista=lista)
+    nombre=g.user
+    print("Index 2 {}".format(g.user))
+    return render_template('ejemplo.html', titulo=titulo, nombre=nombre,lista=lista)
 
 
 @app.route("/OperasBas")
@@ -81,16 +102,19 @@ def calculadora():
 
 @app.route("/alumnos", methods=["GET", "POST"])
 def alumnos():
-    mat=''
+    mat=0
     nom=''
     ape=''
     cor=''
     alumno_clas=forms.UserForm(request.form)
-    if request.method == 'POST':
+    if request.method == 'POST' and alumno_clas.validate():
         mat = alumno_clas.matricula.data
         nom = alumno_clas.nombre.data
         ape = alumno_clas.apellido.data
         cor = alumno_clas.correo.data
+        
+        mensaje='Bienvenido {}'.format(nom)
+        flash(mensaje)
     return render_template("Alumnos.html",form=alumno_clas,mat=mat,nom=nom,ape=ape,cor=cor)
 
 @app.route("/cinepolis", methods=["GET", "POST"])
@@ -198,4 +222,5 @@ def zodiaco():
 
 
 if __name__ =="__main__":
+    csr.init_app(app)
     app.run(debug=True) #Debug hace un reload

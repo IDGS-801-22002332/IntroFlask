@@ -4,15 +4,14 @@ from wtforms import validators
 
 class UserForm(Form):
     matricula=IntegerField("Matricula",[
-        validators.DataRequired(message='El campo es requerido'),
-        validators.length(min=3,max=10,message='3 - 10 caracteres')
+        validators.DataRequired(message='El campo es requerido')
     ])
     nombre=StringField("Nombre",[
-        validators.DataRequired(message='El campo es requerido')
+        validators.DataRequired(message='El nombre es requerido')
     ])
     apellido=StringField("Apellido",[
-        validators.DataRequired(message='El campo es requerido')
+        validators.DataRequired(message='El apellido es requerido')
     ])
     correo=EmailField("Correo",[
-        validators.DataRequired(message='El campo es requerido')
+        validators.DataRequired(message='El correo es requerido')
     ])
